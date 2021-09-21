@@ -21,9 +21,10 @@ You can either copy plugin to configured directory or modify Ansbile `FILTER_PLU
 https://docs.ansible.com/ansible/2.9/reference_appendices/config.html#default-filter-plugin-path  
 
 ## Plugins
-Docs below are docstrings from filter_plugins/xml.py, glued here by `apply_docstring_to_readme.py`
-DO NOT EDIT THEM BY HAND!
-To update README run:
+
+_Docs below are docstrings from filter_plugins/xml.py, glued here by `apply_docstring_to_readme.py`_  
+_DO NOT EDIT THEM BY HAND!_  
+_To update README.md run:_  
 `python apply_docstring_to_readme.py < README.md > NEW_README.md`
 <!-- AUTOGEN_MARK -->
 
