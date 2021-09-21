@@ -6,19 +6,27 @@ jobs:
       - image: circleci/python:3.8
     steps:
       - checkout
-      - run: sudo pip install -r requirements.txt
-      - run: sudo pip install "pylint==2.4.*" "ansible==2.9.*"
+      - run: sudo pip install -r requirements.txt "pylint==2.4.*" "ansible==2.9.*"
       - run: pylint filter_plugins
   test_python_3_8:
     docker:
       - image: circleci/python:3.8
     steps:
       - checkout
-      - run: sudo pip install -r requirements.txt
-      - run: sudo pip install "tox==3.24.*"
+      - run: sudo pip install -r requirements.txt "tox==3.24.*"
       - run: tox
+  # If this step is failing you need to update README. Check out README.md for instructions.
+  validate_readme:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - run: sudo pip install -r requirements.txt "ansible==2.9.*"
+      - run: python apply_docstring_to_readme.py < README.md > /tmp/NEW_README.md
+      - run: diff /tmp/NEW_README.md README.md
 workflows:
   main:
     jobs:
       - lint
       - test_python_3_8
+      - validate_readme
