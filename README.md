@@ -1,4 +1,4 @@
-# ansible-xml-filters
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/newrushbolt/ansible-xml-filters/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/newrushbolt/ansible-xml-filters/tree/master)
 
 ## Installation
 
