@@ -1,5 +1,17 @@
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/newrushbolt/ansible-xml-filters/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/newrushbolt/ansible-xml-filters/tree/master)
 
+## Supported Ansible versions
+
+Tested on following versions:
+* ansible==2.8.*  
+* ansible==2.9.*  
+* ansible==2.10.*  
+* ansible==5.10.*  
+* ansible==6.7.*  
+* ansible==7.1.*  
+
+For more compatibility information check out `tox.ini` and `.circleci/config.yml`, as well as CI results.
+
 ## Installation
 
 First you need to install requirements:  
