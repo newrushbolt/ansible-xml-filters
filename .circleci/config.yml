@@ -2,16 +2,16 @@ version: 2.1
 
 .test_python_steps: &test_python_steps
   - checkout
-  - run: sudo pip install -r requirements.txt "tox==3.24.*"
+  - run: sudo pip install -r requirements.txt "tox==4.2.*"
   - run: tox
 
 jobs:
   lint:
     docker:
-      - image: circleci/python:3.8
+      - image: circleci/python:3.10
     steps:
       - checkout
-      - run: sudo pip install -r requirements.txt "pylint==2.4.*" "ansible==2.9.*"
+      - run: sudo pip install -r requirements.txt "pylint==2.15.*" "ansible==2.9.*"
       - run: pylint filter_plugins
   test_python_3_8:
     docker:
@@ -28,10 +28,11 @@ jobs:
   # If this step is failing you need to update README. Check out README.md for instructions.
   validate_readme:
     docker:
-      - image: circleci/python:3.8
+      - image: circleci/python:3.10
     steps:
       - checkout
-      - run: sudo pip install -r requirements.txt "ansible==2.9.*"
+      # Yes, we really need `ansible` in this job in order to correctly import xml module
+      - run: sudo pip install -r requirements.txt  "ansible==2.9.*"
       - run: python apply_docstring_to_readme.py < README.md > /tmp/NEW_README.md
       - run: diff /tmp/NEW_README.md README.md
 workflows:
