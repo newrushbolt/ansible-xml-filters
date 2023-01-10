@@ -1,5 +1,10 @@
 version: 2.1
 
+.test_python_steps: &test_python_steps
+  - checkout
+  - run: sudo pip install -r requirements.txt "tox==3.24.*"
+  - run: tox
+
 jobs:
   lint:
     docker:
@@ -11,10 +16,15 @@ jobs:
   test_python_3_8:
     docker:
       - image: circleci/python:3.8
-    steps:
-      - checkout
-      - run: sudo pip install -r requirements.txt "tox==3.24.*"
-      - run: tox
+    steps: *test_python_steps
+  test_python_3_9:
+    docker:
+      - image: circleci/python:3.9
+    steps: *test_python_steps
+  test_python_3_10:
+    docker:
+      - image: circleci/python:3.10
+    steps: *test_python_steps
   # If this step is failing you need to update README. Check out README.md for instructions.
   validate_readme:
     docker:
@@ -29,4 +39,6 @@ workflows:
     jobs:
       - lint
       - test_python_3_8
+      - test_python_3_9
+      - test_python_3_10
       - validate_readme
