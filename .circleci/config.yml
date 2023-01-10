@@ -11,7 +11,7 @@ jobs:
       - image: circleci/python:3.10
     steps:
       - checkout
-      - run: sudo pip install -r requirements.txt "pylint==2.15.*" "ansible==2.10.*"
+      - run: sudo pip install -r requirements.txt "pylint==2.15.*" "ansible==5.10.*"
       - run: pylint filter_plugins
   test_python_3_8:
     docker:
@@ -32,7 +32,7 @@ jobs:
     steps:
       - checkout
       # Yes, we really need `ansible` in this job in order to correctly import xml module
-      - run: sudo pip install -r requirements.txt  "ansible==2.10.*"
+      - run: sudo pip install -r requirements.txt  "ansible==5.10.*"
       - run: python apply_docstring_to_readme.py < README.md > /tmp/NEW_README.md
       - run: diff /tmp/NEW_README.md README.md
 workflows:
