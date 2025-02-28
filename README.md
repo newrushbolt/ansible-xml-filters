@@ -1,14 +1,21 @@
+# ansible-xml-filters
+
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/newrushbolt/ansible-xml-filters/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/newrushbolt/ansible-xml-filters/tree/master)
 
 ## Supported Ansible versions
 
 Tested on following versions:
+
 * ansible==2.8.*  
 * ansible==2.9.*  
 * ansible==2.10.*  
 * ansible==5.10.*  
 * ansible==6.7.*  
-* ansible==7.1.*  
+* ansible==7.7.*
+* ansible==8.7.*
+* ansible==9.13.*
+* ansible==10.7.*
+* ansible==11.3.*
 
 For more compatibility information check out `tox.ini` and `.circleci/config.yml`, as well as CI results.
 
@@ -29,8 +36,8 @@ Just copy `filter_plugins` folder to your playbook directory, and you are good t
 Plugin must be placed in directory where ansible is looking for filter_plugins.  
 You can check configured path like this:  
 `ansible-config dump|grep DEFAULT_FILTER_PLUGIN_PATH`  
-You can either copy plugin to configured directory or modify Ansbile `FILTER_PLUGIN_PATH` via config\env.  
-https://docs.ansible.com/ansible/2.9/reference_appendices/config.html#default-filter-plugin-path  
+You can either copy plugin to configured directory or modify Ansbile `FILTER_PLUGIN_PATH` via config\env,  
+[check the docs](https://docs.ansible.com/ansible/2.9/reference_appendices/config.html#default-filter-plugin-path) for more info.  
 
 ## Plugins
 
@@ -42,11 +49,11 @@ _To update README.md run:_
 
 ### to_pretty_plain_xml
 
-
 Ansible filter-plugin to format data structure to XML.
 
 EXAMPLE:
-```
+
+```yaml
 - hosts: localhost
   gather_facts: false
   become: false
@@ -62,11 +69,13 @@ EXAMPLE:
 ```
 
 KNOWN ISSUES:
+
 * According to XML your should have exact one root-level key.
 * No numeric data types allowed, nor booleans.  
   You can use ONLY dicts and strings.  
   Although you can use lists they are useless in XML:
-    ```
+
+    ```yaml
     # Raw data
     sizes:
         - test1
@@ -76,8 +85,10 @@ KNOWN ISSUES:
         <?xml version="1.0" encoding="UTF-8"?>
         <sizes>test1test2</sizes>
     ```
+
 * You can set XML-attributes by prefixing @ to name of a key:
-    ```
+
+    ```yaml
     # Raw data
     sizes:
         '@extra': mutable

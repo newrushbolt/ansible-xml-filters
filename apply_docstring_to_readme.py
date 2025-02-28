@@ -36,7 +36,7 @@ if len(ansible_modules) == 0:
 modules_doc = ""
 for module_name, module_function in ansible_modules.items():
     untabbed_function_doc = re.sub(r"^    ", "", module_function.__doc__, flags=re.MULTILINE)
-    doc_header = f"\n\n### {module_name}\n\n"
+    doc_header = f"\n\n### {module_name}\n"
     module_doc = doc_header + untabbed_function_doc
     modules_doc = modules_doc + module_doc
 dst_readme = dst_readme + modules_doc

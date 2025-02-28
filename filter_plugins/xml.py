@@ -11,7 +11,8 @@ def to_pretty_plain_xml(src_obj, src_codepage="utf-8"):
     Ansible filter-plugin to format data structure to XML.
 
     EXAMPLE:
-    ```
+
+    ```yaml
     - hosts: localhost
       gather_facts: false
       become: false
@@ -27,11 +28,13 @@ def to_pretty_plain_xml(src_obj, src_codepage="utf-8"):
     ```
 
     KNOWN ISSUES:
+
     * According to XML your should have exact one root-level key.
     * No numeric data types allowed, nor booleans.  
       You can use ONLY dicts and strings.  
       Although you can use lists they are useless in XML:
-        ```
+
+        ```yaml
         # Raw data
         sizes:
             - test1
@@ -41,8 +44,10 @@ def to_pretty_plain_xml(src_obj, src_codepage="utf-8"):
             <?xml version="1.0" encoding="UTF-8"?>
             <sizes>test1test2</sizes>
         ```
+
     * You can set XML-attributes by prefixing @ to name of a key:
-        ```
+
+        ```yaml
         # Raw data
         sizes:
             '@extra': mutable
