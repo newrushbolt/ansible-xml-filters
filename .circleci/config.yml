@@ -2,8 +2,14 @@ version: 2.1
 
 .test_python_steps: &test_python_steps
   - checkout
-  - run: sudo pip install -r requirements.txt "tox==4.2.*"
+  - run: "${SUDO_COMMAND}pip install -r requirements.txt 'tox==4.24.1'"
+  - run: echo "$TOX_SKIP_ENV"
+  - run: tox -l
   - run: tox
+
+# Workaround for python images < 3.10
+environment:
+  SUDO_COMMAND: ""
 
 jobs:
   lint:
@@ -18,24 +24,43 @@ jobs:
       - image: circleci/python:3.8
     steps: *test_python_steps
     environment:
-      # Ansible 7.* doesn't support python<3.9
-      TOX_SKIP_ENV: py3-ansible71
+      SUDO_COMMAND: "sudo "
+      # Ansible>=7.0.0 doesn't support python<3.9
+      # TOX_SKIP_ENV is not a list, it's a regex
+      TOX_SKIP_ENV: "ansible77|ansible87|ansible913|ansible107|ansible113"
   test_python_3_9:
     docker:
       - image: circleci/python:3.9
     steps: *test_python_steps
+    environment:
+      SUDO_COMMAND: "sudo "
+      # Ansible>=9.0.0 doesn't support python<3.10
+      TOX_SKIP_ENV: "ansible913|ansible107|ansible113"
   test_python_3_10:
     docker:
-      - image: circleci/python:3.10
+      - image: cimg/python:3.10
     steps: *test_python_steps
-  # If this step is failing you need to update README. Check out README.md for instructions.
+    environment:
+      # Ansible>=10.0.0 doesn't support python<3.11
+      TOX_SKIP_ENV: "ansible113"
+  test_python_3_11:
+    docker:
+      - image: cimg/python:3.11
+    steps: *test_python_steps
+  test_python_3_12:
+    docker:
+      - image: cimg/python:3.12
+    steps: *test_python_steps
+    environment:
+      # Ansible<6.0.0 doesn't support python>=3.12
+      TOX_SKIP_ENV: "ansible28|ansible29|ansible210|ansible510"
   validate_readme:
     docker:
-      - image: circleci/python:3.10
+      - image: cimg/python:3.10
     steps:
       - checkout
       # Yes, we really need `ansible` in this job in order to correctly import xml module
-      - run: sudo pip install -r requirements.txt  "ansible==7.1.*"
+      - run: pip install -r requirements.txt  "ansible==7.1.*"
       - run: python apply_docstring_to_readme.py < README.md > /tmp/NEW_README.md
       - run: diff /tmp/NEW_README.md README.md
 workflows:
@@ -45,4 +70,6 @@ workflows:
       - test_python_3_8
       - test_python_3_9
       - test_python_3_10
+      - test_python_3_11
+      - test_python_3_12
       - validate_readme

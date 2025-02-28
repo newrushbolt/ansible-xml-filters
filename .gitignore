@@ -1,2 +1,4 @@
 .vscode/
 __pycache__
+.test_playbook.yml
+.test_data.xml
